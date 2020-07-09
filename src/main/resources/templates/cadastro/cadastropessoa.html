@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro Pessoa</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
+
+    <style type="text/css">
+        table.striped > tbody > tr:nth-child(odd){ background: #eee;}
+        form input[type=submit]{ color: white; }
+    </style>
+
+</head>
+<body>
+<h3>Spring Boot + Thymeleaf + Material Design Lite</h3>
+<h5>Cadastro de pesssoas</h5>
+    <div class="row">
+        <form action="salvarpessoa" id="formpessoa" method="post" th:object="${pessoaobj}" class="col s12">
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="id" class="active">ID</label>
+                    <input name="id" th:field="*{id}" id="id" readonly>
+                </div>
+                <div class="input-field col s6">
+                    <label for="nome" class="active">Nome</label>
+                    <input name="nome" th:field="*{nome}" id="nome" class="validate">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="sobrenome" class="active">Sobrenome</label>
+                    <input name="sobrenome" th:field="*{sobrenome}" id="sobrenome" class="validate">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="idade" class="active">Idade</label>
+                    <input name="idade" th:field="*{idade}" id="idade" class="validate">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="submit" class="waves-effect waves-light btn" value="Salvar">
+                    <button class="waves-effect waves-light btn" onclick="document.getElementById('formpessoa').reset();">Novo</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <form action="/pesquisarpessoa" method="post" class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="nomepesquisa" class="active">Pesquisa por nome</label>
+                    <input name="nomepesquisa" id="nomepesquisa" class="validate">
+                    <input class="waves-effect waves-light btn" type="submit" value="Buscar">
+                    <a href="/listapessoas" class="waves-effect waves-light btn">Listar todos</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NOME</th>
+                <th>SOBRENOME</th>
+                <th>EDITAR</th>
+                <th>EXCLUIR</th>
+            </tr>
+        </thead>
+        <tr th:each = "pessoa : ${pessoas}">
+            <td data-th-text="${pessoa.id}">ID</td>
+            <td><a th:href="@{/telefones/{idpessoa}(idpessoa=${pessoa.id})}"><span data-th-text="${pessoa.nome}">BRUNO</span></a></td>
+            <td data-th-text="${pessoa.sobrenome}">OLIVEIRA</td>
+            <td><a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a></td>
+            <td><a th:href="@{/removerpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a></td>
+        </tr>
+    </table>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="/materialize/js/materialize.js"></script>
+    <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+</body>
+</html>
